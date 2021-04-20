@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/HomeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,24 +10,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            title: const Text('Home'),
-            actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.settings, color: Colors.white),
-                onPressed: () {})
-          ],
+      title: 'Connect-App',
+      theme: ThemeData(
+        primaryTextTheme: TextTheme(
+          headline6: TextStyle(
+            color: Colors.white
+          )
         ),
-        body: Center(
-          child: Text('This is the home')
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => print('hello'),
-          tooltip: 'Hello world',
-          child: const Icon(Icons.add),
-        ),
+        primaryColor: Colors.amber,
+        accentColor: Colors.lightGreenAccent,
       ),
+      home: HomeScreen(),
+      initialRoute: HomeScreen.routeName,
+      routes: {
+        HomeScreen.routeName: (ctx) => HomeScreen()
+      },
     );
   }
 }
