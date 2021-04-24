@@ -1,3 +1,4 @@
+import 'package:connect_project/screens/DeleteMemberScreen.dart';
 import 'package:flutter/material.dart';
 import 'screens/HomeScreen.dart';
 import 'screens/AddMemberScreen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         AddMemberScreen.routeName: (ctx) => AddMemberScreen(),
         EditMemberScreen.routeName: (ctx) => EditMemberScreen(),
+        DeleteMemberScreen.routeName: (ctx) => DeleteMemberScreen()
       },
     );
   }
