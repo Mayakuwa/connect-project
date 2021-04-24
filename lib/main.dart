@@ -7,7 +7,9 @@ import 'screens/EditMemberScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
           )
         ),
         primaryColor: Colors.amber,
-        accentColor: Colors.lightGreenAccent,
+        accentColor: Colors.amberAccent,
         //バックボタンを白に設定
         primaryIconTheme: IconThemeData(color: Colors.white)
       ),
