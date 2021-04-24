@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/HomeScreen.dart';
+import 'screens/AddMemberScreen.dart';
+import 'screens/EditMemberScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,11 +21,15 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: Colors.amber,
         accentColor: Colors.lightGreenAccent,
+        //バックボタンを白に設定
+        primaryIconTheme: IconThemeData(color: Colors.white)
       ),
       home: HomeScreen(),
       initialRoute: HomeScreen.routeName,
       routes: {
-        HomeScreen.routeName: (ctx) => HomeScreen()
+        HomeScreen.routeName: (ctx) => HomeScreen(),
+        AddMemberScreen.routeName: (ctx) => AddMemberScreen(),
+        EditMemberScreen.routeName: (ctx) => EditMemberScreen(),
       },
     );
   }

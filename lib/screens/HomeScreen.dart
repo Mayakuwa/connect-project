@@ -1,3 +1,4 @@
+import 'package:connect_project/screens/EditMemberScreen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        //バックボタンを消す
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -63,7 +65,9 @@ class HomeScreen extends StatelessWidget {
                   lightColor: Colors.red[300],
                   middleColor: Colors.red[500],
                   darkColor: Colors.red[700],
-                  onPress: () => print('good bye'),
+                  onPress: () {
+                    Navigator.of(context).pushNamed(EditMemberScreen.routeName);
+                  },
                 )
             ),
           )
