@@ -1,3 +1,4 @@
+import 'package:connect_project/screens/AddMemberSuccessScreen.dart';
 import 'package:connect_project/screens/DeleteMemberScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         AddMemberScreen.routeName: (ctx) => AddMemberScreen(),
         EditMemberScreen.routeName: (ctx) => EditMemberScreen(),
-        DeleteMemberScreen.routeName: (ctx) => DeleteMemberScreen()
+        DeleteMemberScreen.routeName: (ctx) => DeleteMemberScreen(),
+        AddMemberSuccessScreen.routeName: (ctx) => AddMemberSuccessScreen()
       },
     );
   }

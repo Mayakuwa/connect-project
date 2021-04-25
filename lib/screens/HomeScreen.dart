@@ -6,6 +6,7 @@ class HomeScreen extends StatelessWidget {
 
   static const routeName = './home_screen';
 
+  // それぞれのボタンを長押ししたら、snackBarを使って表記説明
   @override
   Widget build(BuildContext context) {
     return Scaffold(

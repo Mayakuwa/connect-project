@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connect_project/screens/AddMemberSuccessScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 
@@ -60,8 +62,16 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 lightColor: Colors.orange[300],
                 middleColor: Colors.orange[500],
                 darkColor: Colors.orange[700],
-                onPress: () {
-                  print('追加');
+                onPress: () async {
+                 await FirebaseFirestore.instance.
+                 collection('members').doc().set({
+                   'name': '$_textママ'
+                 });
+                 Navigator.pushNamed(
+                     context,
+                     AddMemberSuccessScreen.routeName,
+                     arguments: '$_textママ'
+                 );
                 },
               ),
             )
