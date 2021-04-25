@@ -19,16 +19,16 @@ class DeleteMemberScreen extends StatelessWidget {
               content: Text("本当に削除しますか？"),
               actions: <Widget>[
                 // ボタン領域
-                FlatButton(
-                  child: Text("Cancel"),
+                TextButton(
+                  child: Text("削除する", style: TextStyle(color: Colors.redAccent)),
                   onPressed: () {
+                    documentId.delete();
                     Navigator.pop(context);
                   },
                 ),
-                FlatButton(
-                  child: Text("OK"),
+                TextButton(
+                  child: Text("キャンセル"),
                   onPressed: () {
-                    documentId.delete();
                     Navigator.pop(context);
                   },
                 ),
