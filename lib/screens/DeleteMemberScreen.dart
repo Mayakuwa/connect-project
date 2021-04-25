@@ -15,10 +15,10 @@ class DeleteMemberScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-              child: FutureBuilder<QuerySnapshot>(
-                future: FirebaseFirestore.instance
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
                     .collection('members')
-                    .get(),
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if(snapshot.hasError) {
                     return Text('エラーが発生しました');
@@ -29,13 +29,19 @@ class DeleteMemberScreen extends StatelessWidget {
                       children: documents.map((document) {
                         return Card(
                           child: ListTile(
-                            title: Text(document['name'])
+                            title: Text(document['name']),
+                            trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('members').doc(document.id).delete();
+                               },
+                            ),
                           ),
                         );
                       }).toList(),
                     );
                   }
-
                   return Center(
                     child: CircularProgressIndicator(),
                   );
