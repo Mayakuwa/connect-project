@@ -6,10 +6,8 @@ class DeleteMemberScreen extends StatelessWidget {
 
   static const routeName = './delete_member_screen';
 
-
   @override
   Widget build(BuildContext context) {
-
     Future<void> showCheckDeleteDialog(DocumentReference documentId) async {
       await showDialog(
           context: context,

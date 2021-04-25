@@ -24,9 +24,9 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 child: SelectGradationButton(
                   buttonText: '給与データ登録',
-                  lightColor: Colors.yellow[300],
-                  middleColor: Colors.yellow[500],
-                  darkColor: Colors.yellow[700],
+                  lightColor: Colors.orange[300],
+                  middleColor: Colors.orange[500],
+                  darkColor: Colors.orange[700],
                   onPress: () => print('good bye'),
                 )
             ),
@@ -50,9 +50,9 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 child: SelectGradationButton(
                   buttonText: '給与データを見る',
-                  lightColor: Colors.pink[300],
-                  middleColor: Colors.pink[500],
-                  darkColor: Colors.pink[700],
+                  lightColor: Colors.orange[300],
+                  middleColor: Colors.orange[500],
+                  darkColor: Colors.orange[700],
                   onPress: () => print('good bye'),
                 )
             ),
@@ -63,9 +63,9 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 child: SelectGradationButton(
                   buttonText: 'メンバー編集',
-                  lightColor: Colors.red[300],
-                  middleColor: Colors.red[500],
-                  darkColor: Colors.red[700],
+                  lightColor: Colors.orange[300],
+                  middleColor: Colors.orange[500],
+                  darkColor: Colors.orange[700],
                   onPress: () {
                     Navigator.of(context).pushNamed(EditMemberScreen.routeName);
                   },
