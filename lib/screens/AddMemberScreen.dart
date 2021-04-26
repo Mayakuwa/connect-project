@@ -20,6 +20,17 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     });
   }
 
+  void _showSnackBar () {
+    final snackBar = SnackBar(
+        content: Text('ママの名前が記入されてません😭'),
+        action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+
+            }));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,14 +74,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 darkColor: Colors.orange[700],
                 onPress: () async {
                   if (_text == "") {
-                    final snackBar = SnackBar(
-                        content: Text('ママの名前が記入されてません😭'),
-                        action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {
-
-                        }));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    _showSnackBar();
                   } else {
                     await FirebaseFirestore.instance.
                     collection('members').doc().set({

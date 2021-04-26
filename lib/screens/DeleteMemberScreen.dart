@@ -8,7 +8,8 @@ class DeleteMemberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> showCheckDeleteDialog(DocumentReference documentId) async {
+
+    Future<void> _showCheckDeleteDialog(DocumentReference documentId) async {
       await showDialog(
           context: context,
           builder: (_) {
@@ -36,6 +37,17 @@ class DeleteMemberScreen extends StatelessWidget {
       );
     }
 
+    void _showSnackBar (String mamaName) {
+      final snackBar = SnackBar(
+          content: Text('$mamaNameが削除されました'),
+          action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+
+              }));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('メンバー削除'),
@@ -61,8 +73,9 @@ class DeleteMemberScreen extends StatelessWidget {
                             trailing: IconButton(
                                 icon: Icon(Icons.delete),
                                 onPressed: () async {
-                                  await showCheckDeleteDialog(FirebaseFirestore.instance
+                                  await _showCheckDeleteDialog(FirebaseFirestore.instance
                                       .collection('members').doc(document.id));
+                                  _showSnackBar(document['name']);
                                },
                             ),
                           ),
