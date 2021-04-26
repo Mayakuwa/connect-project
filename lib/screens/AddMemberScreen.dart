@@ -51,7 +51,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               padding: EdgeInsets.all(20),
               child: TextField(
                 textAlign: TextAlign.center,
-                autofocus: true,
                 onChanged: _changeText,
               ),
             ),
@@ -63,15 +62,26 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 middleColor: Colors.orange[500],
                 darkColor: Colors.orange[700],
                 onPress: () async {
-                 await FirebaseFirestore.instance.
-                 collection('members').doc().set({
-                   'name': '$_textママ'
-                 });
-                 Navigator.pushNamed(
-                     context,
-                     AddMemberSuccessScreen.routeName,
-                     arguments: '$_textママ'
-                 );
+                  if (_text == "") {
+                    final snackBar = SnackBar(
+                        content: Text('ママの名前が記入されてません😭'),
+                        action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+
+                        }));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    await FirebaseFirestore.instance.
+                    collection('members').doc().set({
+                      'name': '$_textママ'
+                    });
+                    Navigator.pushNamed(
+                        context,
+                        AddMemberSuccessScreen.routeName,
+                        arguments: '$_textママ'
+                    );
+                  }
                 },
               ),
             )
