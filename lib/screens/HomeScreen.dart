@@ -1,3 +1,4 @@
+import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/EditMemberScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
@@ -28,7 +29,9 @@ class HomeScreen extends StatelessWidget {
                   lightColor: Colors.orange[300],
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],
-                  onPress: () => print('good bye'),
+                  onPress: () {
+                    Navigator.of(context).pushNamed(AddSalaryScreen.routeName);
+                  },
                 )
             ),
           ),
