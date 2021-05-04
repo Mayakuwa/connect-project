@@ -9,7 +9,7 @@ class AddMemberSuccessScreen extends StatelessWidget {
   //戻るボタンをつけないよにする。
   @override
   Widget build(BuildContext context) {
-    // メンバーの名前取得
+    // ママの名前取得
     final mamaName = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(

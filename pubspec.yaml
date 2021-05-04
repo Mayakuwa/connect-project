@@ -33,6 +33,7 @@ dependencies:
   cloud_firestore: ^1.0.6
   url_launcher: ^6.0.3
   flare_flutter: ^3.0.0
+  flutter_cupertino_date_picker: ^1.0.26+2
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/screens/AddSalaryNextScreen.dart';
 import 'package:flutter/cupertino.dart';
+import '';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 
@@ -55,7 +56,6 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _insertList();
   }
@@ -104,7 +104,7 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: SelectGradationButton(
                   buttonText: 'ママを選ぶ',
                   lightColor: Colors.orange[300],
@@ -114,7 +114,7 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: SelectGradationButton(
                   buttonText: '次へ',
                   lightColor: Colors.orange[300],
