@@ -45,6 +45,7 @@ class DeleteMemberScreen extends StatelessWidget {
               onPressed: () {
 
               }));
+
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 

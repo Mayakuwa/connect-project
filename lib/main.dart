@@ -1,4 +1,5 @@
 import 'package:connect_project/screens/AddMemberSuccessScreen.dart';
+import 'package:connect_project/screens/AddSalaryNextScreen.dart';
 import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/DeleteMemberScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'screens/HomeScreen.dart';
 import 'screens/AddMemberScreen.dart';
 import 'screens/EditMemberScreen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +40,8 @@ class MyApp extends StatelessWidget {
         EditMemberScreen.routeName: (ctx) => EditMemberScreen(),
         DeleteMemberScreen.routeName: (ctx) => DeleteMemberScreen(),
         AddMemberSuccessScreen.routeName: (ctx) => AddMemberSuccessScreen(),
-        AddSalaryScreen.routeName: (ctx) => AddSalaryScreen()
+        AddSalaryScreen.routeName: (ctx) => AddSalaryScreen(),
+        AddSalaryNextScreen.routeName: (ctx) => AddSalaryNextScreen()
       },
     );
   }

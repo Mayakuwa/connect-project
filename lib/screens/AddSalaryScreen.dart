@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:connect_project/screens/AddSalaryNextScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
@@ -41,12 +41,23 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
           })
     );
   }
+
+  void _showSnackBar () {
+    final snackBar = SnackBar(
+        content: Text('ママが選択されていません😭'),
+        action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+
+            }));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _insertList();
-    print('init');
   }
 
   void _selectMamaPicker(BuildContext context) {
@@ -72,7 +83,6 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     return Scaffold(
       appBar: AppBar(title: Text('給与追加')),
       body: Center(
@@ -110,7 +120,15 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
                   lightColor: Colors.orange[300],
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],
-                  onPress: () => print('次へ')
+                  onPress: () {
+                    _selectedMama == 'none' ?
+                        _showSnackBar() :
+                        Navigator.pushNamed(
+                            context,
+                            AddSalaryNextScreen.routeName,
+                            arguments: _selectedMama
+                        );
+                  }
               ),
             )
           ],
