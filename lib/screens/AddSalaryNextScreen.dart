@@ -4,6 +4,8 @@ import 'package:connect_project/widgets/SelectGradationButton.dart';
 // import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:connect_project/data/yearMonthList.dart';
+import 'package:flutter/services.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 
 class AddSalaryNextScreen extends StatefulWidget {
@@ -22,6 +24,20 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   int _selectedMonth;
   final TextEditingController _textEditingControllerToYear = TextEditingController();
   final TextEditingController _textEditingControllerToMonth = TextEditingController();
+
+  final FocusNode _nodeText = FocusNode();
+
+  KeyboardActionsConfig  _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _nodeText,
+        ),
+      ]
+    );
+  }
 
   void _selectDate(BuildContext context) async {
     DateTime pickedDate = await showModalBottomSheet<DateTime>(
@@ -160,7 +176,6 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
     //ママの名前取得
@@ -169,64 +184,85 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
       appBar: AppBar(
           title: Text('給与追加'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                '$mamaNameの',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+      body: KeyboardActions(
+        config: _buildConfig(context),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  '$mamaName',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width/ 5,
-                    child: GestureDetector(
-                      onTap: () => _selectYear(context),
-                      child: AbsorbPointer(
-                        child: TextField(
-                          controller: _textEditingControllerToYear,
-                          decoration: InputDecoration(hintText: 'Year'),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width/ 5,
+                      child: GestureDetector(
+                        onTap: () => _selectYear(context),
+                        child: AbsorbPointer(
+                          child: TextField(
+                            controller: _textEditingControllerToYear,
+                            decoration: InputDecoration(hintText: 'Year'),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Text('年'),
-                  Container(
-                    width: MediaQuery.of(context).size.width/ 5,
-                    child: GestureDetector(
-                      onTap: () => _selectMonth(context),
-                      child: AbsorbPointer(
-                        child: TextField(
-                          controller: _textEditingControllerToMonth,
-                          decoration: InputDecoration(hintText: 'Month'),
+                    Text('年'),
+                    Container(
+                      width: MediaQuery.of(context).size.width/ 5,
+                      child: GestureDetector(
+                        onTap: () => _selectMonth(context),
+                        child: AbsorbPointer(
+                          child: TextField(
+                            controller: _textEditingControllerToMonth,
+                            decoration: InputDecoration(hintText: 'Month'),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Text('月'),
-                ],
+                    Text('月'),
+                  ],
+                )
+              ),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                      Container(
+                          width: MediaQuery.of(context).size.width/ 2,
+                          child: TextField(
+                            enabled: true,
+                            focusNode: _nodeText,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(hintText: '値段を入力'),
+                          ),
+                        ),
+                    Text('円'),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SelectGradationButton(
+                    buttonText: '次へ',
+                    lightColor: Colors.orange[300],
+                    middleColor: Colors.orange[500],
+                    darkColor: Colors.orange[700],
+                    onPress: () {
+                      print('次へ');
+                    }
+                ),
               )
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SelectGradationButton(
-                  buttonText: '次へ',
-                  lightColor: Colors.orange[300],
-                  middleColor: Colors.orange[500],
-                  darkColor: Colors.orange[700],
-                  onPress: () {
-                    print('次へ');
-                  }
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
