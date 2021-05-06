@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 // import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 // import 'package:flutter/cupertino.dart';
+import 'package:connect_project/data/yearMonthList.dart';
 
 
 class AddSalaryNextScreen extends StatefulWidget {
@@ -15,8 +16,12 @@ class AddSalaryNextScreen extends StatefulWidget {
 
 class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
 
+
   DateTime _selectedDate;
-  final TextEditingController _textEditingController = TextEditingController();
+  int _selectedYear;
+  int _selectedMonth;
+  final TextEditingController _textEditingControllerToYear = TextEditingController();
+  final TextEditingController _textEditingControllerToMonth = TextEditingController();
 
   void _selectDate(BuildContext context) async {
     DateTime pickedDate = await showModalBottomSheet<DateTime>(
@@ -73,13 +78,86 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
         }
     );
 
-    if (pickedDate != null && pickedDate != _selectedDate) {
+    // if (pickedDate != null && pickedDate != _selectedDate) {
+    //   setState(() {
+    //     _selectedDate = pickedDate;
+    //     _textEditingController.text = pickedDate.toString();
+    //   });
+    // }
+  }
+
+  void _selectYear(BuildContext context) async {
+    int pickedYear = await showModalBottomSheet<int>(
+        context: context,
+        builder: (BuildContext context) {
+          int tempPickedYear;
+          return Container(
+            height: MediaQuery.of(context).size.height / 3,
+            child: GestureDetector(
+              onTap: () {
+                print(_selectedYear);
+                print(tempPickedYear);
+                Navigator.of(context).pop(tempPickedYear);
+              },
+              child: CupertinoPicker(
+                itemExtent: 30,
+                children: yearList.map(_pickerItem).toList(),
+                onSelectedItemChanged: (int index) {
+                  tempPickedYear = yearList[index];
+                },
+              ),
+            ),
+          );
+        }
+    );
+
+    if(pickedYear != null && pickedYear != _selectedYear) {
       setState(() {
-        _selectedDate = pickedDate;
-        _textEditingController.text = pickedDate.toString();
+        _selectedYear = pickedYear;
+        _textEditingControllerToYear.text = pickedYear.toString();
       });
     }
   }
+
+  void _selectMonth(BuildContext context) async {
+    int pickedMonth = await showModalBottomSheet<int>(
+        context: context,
+        builder: (BuildContext context) {
+          int tempPickedMonth;
+          return Container(
+            height: MediaQuery.of(context).size.height / 3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop(tempPickedMonth);
+              },
+              child: CupertinoPicker(
+                itemExtent: 30,
+                children: monthList.map(_pickerItem).toList(),
+                onSelectedItemChanged: (int index) {
+                  tempPickedMonth = monthList[index];
+                },
+              ),
+            ),
+          );
+        }
+    );
+
+    if(pickedMonth != null && pickedMonth != _selectedMonth) {
+      setState(() {
+        _selectedMonth = pickedMonth;
+        _textEditingControllerToMonth.text = pickedMonth.toString();
+      });
+    }
+  }
+
+  Widget _pickerItem(int year) {
+    return Text(
+      '$year',
+      style: TextStyle(fontSize: 15),
+    );
+  }
+
+
 
 
 
@@ -104,16 +182,36 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
             ),
             Padding(
               padding: EdgeInsets.all(20),
-              child: GestureDetector(
-                onTap: () {
-                  _selectDate(context);
-                },
-                child: AbsorbPointer(
-                  child: TextField(
-                    controller: _textEditingController,
-                    decoration: InputDecoration(hintText: '月日'),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width/ 5,
+                    child: GestureDetector(
+                      onTap: () => _selectYear(context),
+                      child: AbsorbPointer(
+                        child: TextField(
+                          controller: _textEditingControllerToYear,
+                          decoration: InputDecoration(hintText: 'Year'),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Text('年'),
+                  Container(
+                    width: MediaQuery.of(context).size.width/ 5,
+                    child: GestureDetector(
+                      onTap: () => _selectMonth(context),
+                      child: AbsorbPointer(
+                        child: TextField(
+                          controller: _textEditingControllerToMonth,
+                          decoration: InputDecoration(hintText: 'Month'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text('月'),
+                ],
               )
             ),
             Padding(

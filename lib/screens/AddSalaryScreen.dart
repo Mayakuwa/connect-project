@@ -15,7 +15,7 @@ class AddSalaryScreen extends StatefulWidget {
 }
 
 class _AddSalaryScreenState extends State<AddSalaryScreen> {
-  List<String>_dummy = [];
+  List<String>_mamaName = [];
 
   String _selectedMama = 'none';
 
@@ -28,7 +28,7 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
 
   void _onSelectedItemChange(int index) {
     setState(() {
-      _selectedMama = _dummy[index];
+      _selectedMama = _mamaName[index];
     });
   }
 
@@ -37,7 +37,7 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
           collection('members')
           .get().then((snapshot) =>
           snapshot.docs.forEach((doc) {
-            _dummy.add(doc['name']);
+            _mamaName.add(doc['name']);
             //print(doc['name']);
           })
     );
@@ -72,7 +72,7 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
               },
               child: CupertinoPicker(
                 itemExtent: 40,
-                children: _dummy.map(_pickerItem).toList(),
+                children: _mamaName.map(_pickerItem).toList(),
                 onSelectedItemChanged: _onSelectedItemChange
               ),
             ),
