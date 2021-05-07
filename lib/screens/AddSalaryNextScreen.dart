@@ -22,6 +22,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   DateTime _selectedDate;
   int _selectedYear;
   int _selectedMonth;
+  String _inputMoney = '';
   final TextEditingController _textEditingControllerToYear = TextEditingController();
   final TextEditingController _textEditingControllerToMonth = TextEditingController();
 
@@ -34,9 +35,20 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
       actions: [
         KeyboardActionsItem(
           focusNode: _nodeText,
+          onTapAction: () {
+            double calculateMoney;
+            calculateMoney = int.parse(_inputMoney) * 0.2;
+            _inputMoney = calculateMoney.toString();
+          }
         ),
       ]
     );
+  }
+
+  void _handlingMoneyField (String d) {
+    setState(() {
+      _inputMoney = d;
+    });
   }
 
   void _selectDate(BuildContext context) async {
@@ -231,6 +243,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                   ],
                 )
               ),
+              Text(_inputMoney),
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Row(
@@ -243,6 +256,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                             focusNode: _nodeText,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(hintText: '値段を入力'),
+                            onChanged: _handlingMoneyField,
                           ),
                         ),
                     Text('円'),
