@@ -25,6 +25,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   String _inputMoney = '';
   final TextEditingController _textEditingControllerToYear = TextEditingController();
   final TextEditingController _textEditingControllerToMonth = TextEditingController();
+  final TextEditingController _textEditingControllerToMoney = TextEditingController();
 
   final FocusNode _nodeText = FocusNode();
 
@@ -36,9 +37,12 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
         KeyboardActionsItem(
           focusNode: _nodeText,
           onTapAction: () {
-            double calculateMoney;
-            calculateMoney = int.parse(_inputMoney) * 0.2;
-            _inputMoney = calculateMoney.toString();
+            int calculateMoney;
+            calculateMoney = (double.parse(_inputMoney) * 0.2).floor();
+            setState(() {
+              _inputMoney = calculateMoney.toString();
+              _textEditingControllerToMoney.text = _inputMoney;
+            });
           }
         ),
       ]
@@ -50,6 +54,8 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
       _inputMoney = d;
     });
   }
+
+
 
   void _selectDate(BuildContext context) async {
     DateTime pickedDate = await showModalBottomSheet<DateTime>(
@@ -186,8 +192,6 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   }
 
 
-
-
   @override
   Widget build(BuildContext context) {
     //ママの名前取得
@@ -243,7 +247,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                   ],
                 )
               ),
-              Text(_inputMoney),
+              Text('$_inputMoney円'),
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Row(
@@ -252,6 +256,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                       Container(
                           width: MediaQuery.of(context).size.width/ 2,
                           child: TextField(
+                            controller: _textEditingControllerToMoney,
                             enabled: true,
                             focusNode: _nodeText,
                             keyboardType: TextInputType.number,
