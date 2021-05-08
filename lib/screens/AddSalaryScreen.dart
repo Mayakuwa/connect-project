@@ -15,8 +15,9 @@ class AddSalaryScreen extends StatefulWidget {
 
 class _AddSalaryScreenState extends State<AddSalaryScreen> {
   List<String>_mamaName = [];
-
   String _selectedMama = 'none';
+  final TextEditingController _textEditingControllerToMama = TextEditingController();
+
 
   Widget _pickerItem(String text) {
     return Text(
@@ -59,8 +60,8 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
     _insertList();
   }
 
-  void _selectMamaPicker(BuildContext context) {
-    showModalBottomSheet(
+  void _selectMamaPicker(BuildContext context) async {
+    String pickedMama = await showModalBottomSheet<String>(
         context: context,
         builder: (BuildContext context) {
           return Container(
@@ -78,6 +79,12 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
           );
         }
     );
+
+    if(pickedMama != null && pickedMama != _selectedMama) {
+      setState(() {
+        _selectedMama = pickedMama;
+      });
+    }
   }
 
   @override
