@@ -4,6 +4,8 @@ import 'package:connect_project/widgets/SelectGradationButton.dart';
 import 'package:connect_project/data/yearMonthList.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 enum TextFieldType {
   YEAR,
@@ -28,9 +30,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   final TextEditingController _textEditingControllerToYear = TextEditingController();
   final TextEditingController _textEditingControllerToMonth = TextEditingController();
   final TextEditingController _textEditingControllerToMoney = TextEditingController();
-
   final FocusNode _nodeText = FocusNode();
-
   KeyboardActionsConfig  _buildConfig(BuildContext context) {
     return KeyboardActionsConfig(
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
@@ -153,7 +153,6 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-
   Widget _pickerItem(int year) {
     return Text(
       '$year',
@@ -243,7 +242,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                     lightColor: Colors.orange[300],
                     middleColor: Colors.orange[500],
                     darkColor: Colors.orange[700],
-                    onPress: () {
+                    onPress: () async {
                       if (_selectedYear == null &&
                           _selectedMonth == null &&
                           _inputMoney == '') {
@@ -256,7 +255,16 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                       } else if(_inputMoney == '') {
                         _selectSnackBar(TextFieldType.MONEY);
                       } else {
-                        print('次へ');
+                        //ママの名前取得
+                        final ref01 =  await FirebaseFirestore.instance.
+                        collection('members').doc('name').collection(mamaName).id;
+                        print('$ref01ゲット');
+
+                        //document idゲット
+                        final ref02 = await FirebaseFirestore.instance.
+                        collection('members').where('name',isEqualTo: mamaName).get().then((value) => value.docs.reversed.first.id);
+                        print('$ref02ゲット');
+
                       }
                     }
                 ),
