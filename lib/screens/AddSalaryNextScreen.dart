@@ -5,6 +5,12 @@ import 'package:connect_project/data/yearMonthList.dart';
 import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
+enum TextFieldType {
+  YEAR,
+  MONTH,
+  MONEY,
+  OTHER
+}
 
 class AddSalaryNextScreen extends StatefulWidget {
 
@@ -16,8 +22,6 @@ class AddSalaryNextScreen extends StatefulWidget {
 
 class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
 
-
-  DateTime _selectedDate;
   int _selectedYear;
   int _selectedMonth;
   String _inputMoney = '';
@@ -60,7 +64,8 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
     int pickedYear = await showModalBottomSheet<int>(
         context: context,
         builder: (BuildContext context) {
-          int tempPickedYear;
+          //デフォルト値を設定
+          int tempPickedYear = 2021;
           return Container(
             height: MediaQuery.of(context).size.height / 3,
             child: GestureDetector(
@@ -70,7 +75,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                 Navigator.of(context).pop(tempPickedYear);
               },
               child: CupertinoPicker(
-                itemExtent: 30,
+                itemExtent: 25,
                 children: yearList.map(_pickerItem).toList(),
                 onSelectedItemChanged: (int index) {
                   tempPickedYear = yearList[index];
@@ -93,7 +98,8 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
     int pickedMonth = await showModalBottomSheet<int>(
         context: context,
         builder: (BuildContext context) {
-          int tempPickedMonth;
+          //デフォルト値を設定
+          int tempPickedMonth = 1;
           return Container(
             height: MediaQuery.of(context).size.height / 3,
             child: GestureDetector(
@@ -120,13 +126,40 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
     }
   }
 
+  void _selectSnackBar(TextFieldType type) {
+    switch(type) {
+      case TextFieldType.YEAR:
+        _showSnackBar('年');
+        break;
+      case TextFieldType.MONTH:
+        _showSnackBar('月');
+        break;
+      case TextFieldType.MONEY:
+        _showSnackBar('金額');
+        break;
+      case TextFieldType.OTHER:
+        _showSnackBar('全ての項目を');
+        break;
+    }
+  }
+
+  void _showSnackBar(String message) {
+    final snackBar = SnackBar(
+      content:  Text('$messageを入力してください'),
+      action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {}),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+
   Widget _pickerItem(int year) {
     return Text(
       '$year',
       style: TextStyle(fontSize: 15),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +216,6 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                   ],
                 )
               ),
-              Text('$_inputMoney円'),
               Padding(
                 padding: EdgeInsets.all(20),
                 child: Row(
@@ -212,7 +244,20 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                     middleColor: Colors.orange[500],
                     darkColor: Colors.orange[700],
                     onPress: () {
-                      print('次へ');
+                      if (_selectedYear == null &&
+                          _selectedMonth == null &&
+                          _inputMoney == '') {
+                        _selectSnackBar(TextFieldType.OTHER);
+                      // ignore: unrelated_type_equality_checks
+                      } else if (_selectedYear == null) {
+                        _selectSnackBar(TextFieldType.YEAR);
+                      } else if(_selectedMonth == null) {
+                        _selectSnackBar(TextFieldType.MONTH);
+                      } else if(_inputMoney == '') {
+                        _selectSnackBar(TextFieldType.MONEY);
+                      } else {
+                        print('次へ');
+                      }
                     }
                 ),
               )

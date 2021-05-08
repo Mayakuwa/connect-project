@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/screens/AddSalaryNextScreen.dart';
 import 'package:flutter/cupertino.dart';
-import '';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 
