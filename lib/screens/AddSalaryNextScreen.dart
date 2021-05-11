@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 import 'package:connect_project/data/yearMonthList.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 
 enum TextFieldType {
@@ -160,6 +162,15 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
     );
   }
 
+  //現在年月取得
+  String getDate() {
+    initializeDateFormatting('ja');
+    var now= new DateTime.now();
+    var formatter= new DateFormat.yMMM('ja');
+    String month= formatter.format(now).toString();
+    return month;
+  }
+
   @override
   Widget build(BuildContext context) {
     //ママの名前取得
@@ -265,6 +276,15 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                         collection('members').where('name',isEqualTo: mamaName).get().then((value) => value.docs.reversed.first.id);
                         print('$ref02ゲット');
 
+                        //年月追加
+                        print(getDate());
+
+                        //給与データ追加
+                        await FirebaseFirestore.instance.collection('salaries').doc(getDate())
+                            .collection('all-salary').add({
+                          'salary': _inputMoney,
+                          'userId': ref02
+                        });
                       }
                     }
                 ),
