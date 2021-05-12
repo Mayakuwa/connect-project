@@ -15,7 +15,7 @@ class AddSalaryScreen extends StatefulWidget {
 
 class _AddSalaryScreenState extends State<AddSalaryScreen> {
   List<String>_mamaName = [];
-  String _selectedMama = 'none';
+  String _selectedMama = '';
   final TextEditingController _textEditingControllerToMama = TextEditingController();
 
 
@@ -38,20 +38,12 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
           .get().then((snapshot) =>
           snapshot.docs.forEach((doc) {
             _mamaName.add(doc['name']);
+            setState(() {
+              _selectedMama = _mamaName[0];
+            });
             //print(doc['name']);
           })
     );
-  }
-
-  void _showSnackBar () {
-    final snackBar = SnackBar(
-        content: Text('ママが選択されていません😭'),
-        action: SnackBarAction(
-            label: 'OK',
-            onPressed: () {
-
-            }));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -127,13 +119,11 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],
                   onPress: () {
-                    _selectedMama == 'none' ?
-                        _showSnackBar() :
-                        Navigator.pushNamed(
-                            context,
-                            AddSalaryNextScreen.routeName,
-                            arguments: _selectedMama
-                        );
+                      Navigator.pushNamed(
+                          context,
+                          AddSalaryNextScreen.routeName,
+                          arguments: _selectedMama
+                      );
                   }
               ),
             )

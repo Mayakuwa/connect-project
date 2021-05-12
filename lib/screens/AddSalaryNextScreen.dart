@@ -1,12 +1,14 @@
+import 'package:connect_project/screens/AddSalarySuccessScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
-import 'package:connect_project/data/yearMonthList.dart';
+import 'package:connect_project/data/YearMonthList.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:connect_project/data/SalaryData.dart';
 
 
 enum TextFieldType {
@@ -72,8 +74,6 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
             height: MediaQuery.of(context).size.height / 3,
             child: GestureDetector(
               onTap: () {
-                print(_selectedYear);
-                print(tempPickedYear);
                 Navigator.of(context).pop(tempPickedYear);
               },
               child: CupertinoPicker(
@@ -151,6 +151,17 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
       action: SnackBarAction(
           label: 'OK',
           onPressed: () {}),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _showErrorSnackBar() {
+    final snackBar = SnackBar(
+        content: Text('エラーが発生しました'),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {},
+        ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -266,25 +277,23 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                       } else if(_inputMoney == '') {
                         _selectSnackBar(TextFieldType.MONEY);
                       } else {
-                        //ママの名前取得
-                        final ref01 =  await FirebaseFirestore.instance.
-                        collection('members').doc('name').collection(mamaName).id;
-                        print('$ref01ゲット');
 
-                        //document idゲット
-                        final ref02 = await FirebaseFirestore.instance.
+                        //ママのdocument idゲット
+                        final mamaRef = await FirebaseFirestore.instance.
                         collection('members').where('name',isEqualTo: mamaName).get().then((value) => value.docs.reversed.first.id);
-                        print('$ref02ゲット');
-
-                        //年月追加
-                        print(getDate());
 
                         //給与データ追加
                         await FirebaseFirestore.instance.collection('salaries').doc(getDate())
                             .collection('all-salary').add({
                           'salary': _inputMoney,
-                          'userId': ref02
-                        });
+                          'userId': mamaRef
+                        })
+                        .then((value) => Navigator.pushNamed(
+                            context,
+                            AddSalarySuccessScreen.routeName,
+                            arguments: SalaryData(mamaName: mamaName.toString(), date: getDate(), salary: _inputMoney)
+                        ))
+                        .catchError((error) => _showErrorSnackBar());
                       }
                     }
                 ),
