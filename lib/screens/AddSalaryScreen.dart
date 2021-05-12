@@ -32,6 +32,7 @@ class _AddSalaryScreenState extends State<AddSalaryScreen> {
     });
   }
 
+  // Todo エラーハンドリングをする。
   void _insertList() async {
     await FirebaseFirestore.instance.
           collection('members')

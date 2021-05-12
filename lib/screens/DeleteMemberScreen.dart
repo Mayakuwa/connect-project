@@ -9,7 +9,19 @@ class DeleteMemberScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Future<void> _showCheckDeleteDialog(DocumentReference documentId) async {
+    void _showSnackBar (String mamaName) {
+      final snackBar = SnackBar(
+          content: Text('$mamaNameが削除されました'),
+          action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+
+              }));
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
+    Future<void> _showCheckDeleteDialog(DocumentReference documentId, String mamaName) async {
       await showDialog(
           context: context,
           builder: (_) {
@@ -23,6 +35,7 @@ class DeleteMemberScreen extends StatelessWidget {
                   onPressed: () {
                     documentId.delete();
                     Navigator.pop(context);
+                    _showSnackBar(mamaName);
                   },
                 ),
                 TextButton(
@@ -37,17 +50,6 @@ class DeleteMemberScreen extends StatelessWidget {
       );
     }
 
-    void _showSnackBar (String mamaName) {
-      final snackBar = SnackBar(
-          content: Text('$mamaNameが削除されました'),
-          action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {
-
-              }));
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -74,9 +76,10 @@ class DeleteMemberScreen extends StatelessWidget {
                             trailing: IconButton(
                                 icon: Icon(Icons.delete),
                                 onPressed: () async {
-                                  await _showCheckDeleteDialog(FirebaseFirestore.instance
-                                      .collection('members').doc(document.id));
-                                  _showSnackBar(document['name']);
+                                  final documentId = FirebaseFirestore.instance
+                                      .collection('members').doc(document.id);
+                                  final mamaName = documentId.collection(document['name']).id;
+                                  await _showCheckDeleteDialog(documentId, mamaName);
                                },
                             ),
                           ),
