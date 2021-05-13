@@ -1,22 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class CheckSalaryScreen extends StatefulWidget {
+class EditSalaryScreen extends StatelessWidget {
 
-  static const routeName = './check_salary_screen';
-
-  @override
-  _CheckSalaryScreenState createState() => _CheckSalaryScreenState();
-}
-
-class _CheckSalaryScreenState extends State<CheckSalaryScreen> {
+  static const routeName = './edit_salary_screen';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('データ確認')
-      ),
+      appBar: AppBar(title: Text('給与データ編集'),),
       body: Column(
         children: [
           Container(
@@ -29,10 +21,10 @@ class _CheckSalaryScreenState extends State<CheckSalaryScreen> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('members')
-                  .snapshots(),
-              builder: (context, snapshot) {
+              stream: FirebaseFirestore.instance.
+              collection('members')
+              .snapshots(),
+            builder: (context, snapshot) {
                 if(snapshot.hasError) {
                   return Text('エラーが発生しました');
                 }
@@ -41,13 +33,14 @@ class _CheckSalaryScreenState extends State<CheckSalaryScreen> {
                   return ListView(
                     children: documents.map((document) {
                       return Card(
-                        child: InkWell(
-                          onTap: () {
-                            print('hello');
-                          },
-                          child: ListTile(
-                            title: Text(document['name']),
-                          ),
+                        child: ListTile(
+                          title: Text(document['name']),
+                          trailing: IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              print('hello');
+                            },
+                          ) ,
                         ),
                       );
                     }).toList(),
@@ -56,7 +49,7 @@ class _CheckSalaryScreenState extends State<CheckSalaryScreen> {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              },
+              }
             )
           )
         ],
