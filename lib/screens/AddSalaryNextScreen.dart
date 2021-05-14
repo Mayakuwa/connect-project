@@ -282,18 +282,16 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                         final mamaRef = await FirebaseFirestore.instance.
                         collection('members').where('name',isEqualTo: mamaName).get().then((value) => value.docs.reversed.first.id);
 
-                        //給与データ追加
-                        await FirebaseFirestore.instance.collection('salaries').doc(getDate())
+                        //給与データ追加(newVer)
+                        await FirebaseFirestore.instance.collection('salaries').doc(mamaRef)
                             .collection('all-salary').add({
-                          'salary': _inputMoney,
-                          'userId': mamaRef
-                        })
-                        .then((value) => Navigator.pushNamed(
+                            'salary': _inputMoney,
+                            'date': getDate()
+                        }).then((value) => Navigator.pushNamed(
                             context,
                             AddSalarySuccessScreen.routeName,
                             arguments: SalaryData(mamaName: mamaName.toString(), date: getDate(), salary: _inputMoney)
-                        ))
-                        .catchError((error) => _showErrorSnackBar());
+                        )).catchError((error) => _showErrorSnackBar());
                       }
                     }
                 ),
