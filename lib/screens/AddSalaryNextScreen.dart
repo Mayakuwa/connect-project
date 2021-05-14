@@ -280,7 +280,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
 
                         //ママのdocument idゲット
                         final mamaRef = await FirebaseFirestore.instance.
-                        collection('members').where('name',isEqualTo: mamaName).get().then((value) => value.docs.reversed.first.id);
+                                              collection('members').where('name',isEqualTo: mamaName).get().then((value) => value.docs.reversed.first.id);
 
                         //給与データ追加(newVer)
                         await FirebaseFirestore.instance.collection('salaries').doc(mamaRef)
