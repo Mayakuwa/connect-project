@@ -16,7 +16,6 @@ class AddSalaryScreen extends StatefulWidget {
 class _AddSalaryScreenState extends State<AddSalaryScreen> {
   List<String>_mamaName = [];
   String _selectedMama = '';
-  final TextEditingController _textEditingControllerToMama = TextEditingController();
 
 
   Widget _pickerItem(String text) {

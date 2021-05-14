@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connect_project/screens/CheckSalaryDetailScreen.dart';
 import 'package:flutter/material.dart';
 
 class CheckSalaryScreen extends StatefulWidget {
@@ -43,7 +44,10 @@ class _CheckSalaryScreenState extends State<CheckSalaryScreen> {
                       return Card(
                         child: InkWell(
                           onTap: () {
-                            print('hello');
+                            Navigator.pushNamed(
+                                context, CheckSalaryDetailScreen.routeName,
+                                arguments: document['name']
+                            );
                           },
                           child: ListTile(
                             title: Text(document['name']),
