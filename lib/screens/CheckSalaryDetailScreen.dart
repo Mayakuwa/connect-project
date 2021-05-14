@@ -12,25 +12,21 @@ class CheckSalaryDetailScreen extends StatefulWidget {
 class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
 
   String mamaName = '';
-  String mamaId = '';
+  String mamaId = 'none';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Future(() async {
-      await Future.delayed(Duration.zero, () async {
-        setState(() {
-          mamaName = ModalRoute.of(context).settings.arguments;
-        });
-        final mamaRef = await FirebaseFirestore.instance.
+      mamaName = ModalRoute.of(context).settings.arguments;
+      final mamaRef = await FirebaseFirestore.instance.
         collection('members').where('name', isEqualTo: mamaName).
         get().then((value) => value.docs.reversed.first.id);
         setState(() {
           mamaId = mamaRef;
         });
         print('$mamaName is here');
-      });
     });
   }
 
@@ -61,37 +57,37 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
             child: Text('タップしてください'),
           ),
           Text(mamaId),
-          // Expanded(
-          //   child: StreamBuilder<QuerySnapshot>(
-          //     stream: FirebaseFirestore.instance.
-          //             collection('salaries').doc(mamaId).collection('all-salary').snapshots(),
-          //     builder: (context, snapshot) {
-          //       if(snapshot.hasError) {
-          //         return Text('エラーが発生しました');
-          //       }
-          //       if(snapshot.hasData) {
-          //         final List<DocumentSnapshot> documents = snapshot.data.docs;
-          //         return ListView(
-          //           children: documents.map((document) {
-          //             return Card(
-          //               child: InkWell(
-          //                 onTap: () {
-          //                   print('hello');
-          //                 },
-          //                 child: ListTile(
-          //                   title: Text(document['date']),
-          //                 ),
-          //               ),
-          //             );
-          //           }).toList(),
-          //         );
-          //       }
-          //       return Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     },
-          //   ),
-          // )
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.
+                      collection('salaries').doc(mamaId).collection('all-salary').snapshots(),
+              builder: (context, snapshot) {
+                if(snapshot.hasError) {
+                  return Text('エラーが発生しました');
+                }
+                if(snapshot.hasData) {
+                  final List<DocumentSnapshot> documents = snapshot.data.docs;
+                  return ListView(
+                    children: documents.map((document) {
+                      return Card(
+                        child: InkWell(
+                          onTap: () {
+                            print('hello');
+                          },
+                          child: ListTile(
+                            title: Text(document['date']),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          )
         ],
       ),
     );
