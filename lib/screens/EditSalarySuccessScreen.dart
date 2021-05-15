@@ -35,10 +35,18 @@ class EditSalarySuccessScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(20),
             child: Text(
-              '${data.mamaName}の\n${data.date}の給与を\n${data.salary}円に変更しました😀',
+              '給与データを編集しました😀',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
+          ),
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Text(
+                '${data.mamaName}のデータ\n年月：${data.date}\n給与：${data.salary}円',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              ),
           ),
           Container(
             padding: EdgeInsets.all(20),

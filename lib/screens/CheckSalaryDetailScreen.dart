@@ -55,13 +55,6 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
       appBar: AppBar(title: Text('$mamaNameの給与詳細')),
       body: Column(
         children: [
-          GestureDetector(
-            onTap: () {
-              getDate();
-            },
-            child: Text('タップしてください'),
-          ),
-          Text(mamaId),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.
