@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connect_project/screens/EditSararyDetailScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:connect_project/data/SalaryData.dart';
+
 
 class CheckSalaryDetailScreen extends StatefulWidget {
 
@@ -65,15 +68,24 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
                   return ListView(
                     children: documents.map((document) {
                       return Card(
-                        child: InkWell(
-                          onTap: () {
-                            print('hello');
-                          },
+
                           child: ListTile(
                             title: Text(document['date']),
                             subtitle: Text('${document['salary']}円'),
+                            trailing: IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context,
+                                    EditSalaryDetailScreen.routeName,
+                                    arguments: SalaryData(
+                                        mamaName: mamaName,
+                                        date: document['date'],
+                                        salary: document['salary'])
+                                );
+                              },
+                            ),
                           ),
-                        ),
                       );
                     }).toList(),
                   );

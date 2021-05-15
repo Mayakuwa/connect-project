@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 import 'package:connect_project/data/YearMonthList.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:connect_project/data/SalaryData.dart';
 
 
@@ -172,15 +170,6 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
       style: TextStyle(fontSize: 15),
     );
   }
-
-  //現在年月取得
-  // String getDate() {
-  //   initializeDateFormatting('ja');
-  //   var now= new DateTime.now();
-  //   var formatter= new DateFormat.yMMM('ja');
-  //   String month= formatter.format(now).toString();
-  //   return month;
-  // }
 
   String getInputYearMonth() {
     return '${_textEditingControllerToYear.text}年${_textEditingControllerToMonth.text}月';
