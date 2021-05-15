@@ -26,7 +26,6 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
         setState(() {
           mamaId = mamaRef;
         });
-        print('$mamaName is here');
     });
   }
 
@@ -37,15 +36,11 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
                     get().then((value) => value.docs.reversed.first.id);
       setState(() {
         mamaId = mamaRef;
-        // print(mamaId);
       });
-      print('$mamaRef is get');
     }
 
   @override
   Widget build(BuildContext context) {
-    print('$mamaNameです');
-    print('$mamaIdです');
     return Scaffold(
       appBar: AppBar(title: Text('$mamaNameの給与詳細')),
       body: Column(
