@@ -71,6 +71,7 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
                           },
                           child: ListTile(
                             title: Text(document['date']),
+                            subtitle: Text('${document['salary']}円'),
                           ),
                         ),
                       );
