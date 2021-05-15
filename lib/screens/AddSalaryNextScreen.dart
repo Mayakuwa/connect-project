@@ -33,6 +33,7 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   final TextEditingController _textEditingControllerToMonth = TextEditingController();
   final TextEditingController _textEditingControllerToMoney = TextEditingController();
   final FocusNode _nodeText = FocusNode();
+
   KeyboardActionsConfig  _buildConfig(BuildContext context) {
     return KeyboardActionsConfig(
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
