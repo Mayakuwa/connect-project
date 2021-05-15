@@ -1,4 +1,5 @@
 import 'package:connect_project/data/SalaryData.dart';
+import 'package:connect_project/screens/EditSalarySuccessScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -37,13 +38,23 @@ class _EditSalaryDetailScreenState extends State<EditSalaryDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future(() async {
+    Future.delayed(Duration.zero, ()  {
       final SalaryData dataRef = ModalRoute.of(context).settings.arguments;
       setState(() {
         _firstInputMoney = dataRef.salary;
         _firstSelectedDate = dataRef.date;
+
         _textEditingControllerToMoney.text = _firstInputMoney;
+        _inputMoney = _firstInputMoney;
+
+        _selectedYear = dataRef.year;
+        _selectedMonth = dataRef.month;
+        _textEditingControllerToYear.text = _selectedYear.toString();
+        _textEditingControllerToMonth.text = _selectedMonth.toString();
+
       });
+      print(dataRef.month);
+      print(dataRef.year);
     });
   }
 
@@ -191,8 +202,6 @@ class _EditSalaryDetailScreenState extends State<EditSalaryDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_firstSelectedDate);
-    print(_firstInputMoney);
     final SalaryData data = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(title: Text('${data.mamaName}の給与情報編集')),
@@ -294,20 +303,23 @@ class _EditSalaryDetailScreenState extends State<EditSalaryDetailScreen> {
                         where('date', isEqualTo: _firstSelectedDate).where('salary', isEqualTo: _firstInputMoney).
                         get().then((value) => value.docs.reversed.first.id);
 
-                        print('給料のIDは、$salaryRef');
 
-                        // //給与データ更新
-                        // await FirebaseFirestore.instance.collection('salaries').doc(mamaRef)
-                        //     .collection('all-salary').doc().set({
-                        //   'salary': _inputMoney,
-                        //   'date': getInputYearMonth()
-                        // }).then((value) =>
-                        //     print('dateを追加しました。')
-                        //     Navigator.pushNamed(
-                        //     context,
-                        //     AddSalarySuccessScreen.routeName,
-                        //     arguments: SalaryData(mamaName: mamaName.toString(), date: getInputYearMonth(), salary: _inputMoney)
-                        // ).catchError((error) => _showErrorSnackBar());
+                        //給与データ更新
+                        await FirebaseFirestore.instance.collection('salaries').doc(mamaRef)
+                            .collection('all-salary').doc(salaryRef).set({
+                          'salary': _inputMoney,
+                          'date': getInputYearMonth()
+                        }).then((value) =>
+                           Navigator.pushNamed(
+                               context,
+                               EditSalarySuccessScreen.routeName,
+                               arguments: SalaryData(
+                                   mamaName: data.mamaName,
+                                   date: getInputYearMonth(),
+                                   salary: _inputMoney
+                               )
+                           )
+                        ).catchError((error) => _showErrorSnackBar());
                       }
                     }
                 ),

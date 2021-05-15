@@ -33,13 +33,20 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
   }
 
   void getDate() async {
-      print('$mamaNameです');
       final String mamaRef =  await FirebaseFirestore.instance.
                     collection('members').where('name', isEqualTo: mamaName).
                     get().then((value) => value.docs.reversed.first.id);
       setState(() {
         mamaId = mamaRef;
       });
+    }
+
+    //年と月を分割し、listとして返す。
+    List<String> getMonthAndYearToInt(String date) {
+      RegExp exp = new RegExp(r'^(.+)年(.+)月$');
+      Match match = exp.firstMatch(date);
+      List<String> yearMonth = [match.group(1), match.group(2)];
+      return yearMonth;
     }
 
   @override
@@ -68,20 +75,24 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
                   return ListView(
                     children: documents.map((document) {
                       return Card(
-
                           child: ListTile(
                             title: Text(document['date']),
                             subtitle: Text('${document['salary']}円'),
                             trailing: IconButton(
                               icon: Icon(Icons.edit),
                               onPressed: () {
+                                List<String> yearMonth = getMonthAndYearToInt(document['date']);
+                                getMonthAndYearToInt(document['date']);
                                 Navigator.pushNamed(
                                     context,
                                     EditSalaryDetailScreen.routeName,
                                     arguments: SalaryData(
                                         mamaName: mamaName,
                                         date: document['date'],
-                                        salary: document['salary'])
+                                        salary: document['salary'],
+                                        year: int.parse(yearMonth[0]),
+                                        month: int.parse(yearMonth[1])
+                                    )
                                 );
                               },
                             ),
