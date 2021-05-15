@@ -174,12 +174,16 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
   }
 
   //現在年月取得
-  String getDate() {
-    initializeDateFormatting('ja');
-    var now= new DateTime.now();
-    var formatter= new DateFormat.yMMM('ja');
-    String month= formatter.format(now).toString();
-    return month;
+  // String getDate() {
+  //   initializeDateFormatting('ja');
+  //   var now= new DateTime.now();
+  //   var formatter= new DateFormat.yMMM('ja');
+  //   String month= formatter.format(now).toString();
+  //   return month;
+  // }
+
+  String getInputYearMonth() {
+    return '${_textEditingControllerToYear.text}年${_textEditingControllerToMonth.text}月';
   }
 
   @override
@@ -286,11 +290,11 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                         await FirebaseFirestore.instance.collection('salaries').doc(mamaRef)
                             .collection('all-salary').add({
                             'salary': _inputMoney,
-                            'date': getDate()
+                            'date': getInputYearMonth()
                         }).then((value) => Navigator.pushNamed(
                             context,
                             AddSalarySuccessScreen.routeName,
-                            arguments: SalaryData(mamaName: mamaName.toString(), date: getDate(), salary: _inputMoney)
+                            arguments: SalaryData(mamaName: mamaName.toString(), date: getInputYearMonth(), salary: _inputMoney)
                         )).catchError((error) => _showErrorSnackBar());
                       }
                     }
