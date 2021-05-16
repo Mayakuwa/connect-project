@@ -176,6 +176,8 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
     return '${_textEditingControllerToYear.text}年${_textEditingControllerToMonth.text}月';
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     //ママの名前取得
@@ -280,7 +282,10 @@ class _AddSalaryNextScreenState extends State<AddSalaryNextScreen> {
                         await FirebaseFirestore.instance.collection('salaries').doc(mamaRef)
                             .collection('all-salary').add({
                             'salary': _inputMoney,
-                            'date': getInputYearMonth()
+                            'date': getInputYearMonth(),
+                            'dateTime': DateTime(
+                                          int.parse(_textEditingControllerToYear.text),
+                                          int.parse(_textEditingControllerToMonth.text))
                         }).then((value) => Navigator.pushNamed(
                             context,
                             AddSalarySuccessScreen.routeName,

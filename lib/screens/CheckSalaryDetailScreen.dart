@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/screens/EditSararyDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/data/SalaryData.dart';
+import 'package:intl/intl.dart';
 
 
 class CheckSalaryDetailScreen extends StatefulWidget {
@@ -14,30 +15,59 @@ class CheckSalaryDetailScreen extends StatefulWidget {
 
 class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
 
-  String mamaName = '';
-  String mamaId = 'none';
+  // nullpoを防ぐために初期値を入れておく
+  String _mamaName = '';
+  String _mamaId = 'none';
+  List<SalaryData> _salaryData = [
+    SalaryData(date: '2015年5月', salary: '5000円')
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Future(() async {
-      mamaName = ModalRoute.of(context).settings.arguments;
+      _mamaName = ModalRoute.of(context).settings.arguments;
       final mamaRef = await FirebaseFirestore.instance.
-        collection('members').where('name', isEqualTo: mamaName).
+        collection('members').where('name', isEqualTo: _mamaName).
         get().then((value) => value.docs.reversed.first.id);
         setState(() {
-          mamaId = mamaRef;
+          _mamaId = mamaRef;
         });
+
+      QuerySnapshot salaryData = await FirebaseFirestore.instance.
+      collection('salaries').doc(_mamaId).collection('all-salary').get();
+      for(var i = 0; i < salaryData.docs.length; i++) {
+        _salaryData.add(
+            SalaryData(
+            date: salaryData.docs[i].data()['date'],
+            salary: salaryData.docs[i].data()['salary']
+        ));
+      }
+
+      //テスト並び替え
+      final test = FirebaseFirestore.instance.
+      collection('salaries').doc(_mamaId).collection('all-salary').snapshots();
+      test.forEach((element) {
+        element.docs.reversed.forEach((e) {
+          print(e.data());
+        });
+      }
+      );
     });
   }
 
-  void getDate() async {
+  // Stream<QuerySnapshot> sortDataByDate (Stream<QuerySnapshot> data) {
+  //   //年と月を取り出す
+  //   return
+  // }
+
+  void getMamaIdFromFirestore() async {
       final String mamaRef =  await FirebaseFirestore.instance.
-                    collection('members').where('name', isEqualTo: mamaName).
+                    collection('members').where('name', isEqualTo: _mamaName).
                     get().then((value) => value.docs.reversed.first.id);
       setState(() {
-        mamaId = mamaRef;
+        _mamaId = mamaRef;
       });
     }
 
@@ -51,14 +81,16 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final date = DateTime(2019, 6);
+    print('${date.year}年${date.month}月');
     return Scaffold(
-      appBar: AppBar(title: Text('$mamaNameの給与詳細')),
+      appBar: AppBar(title: Text('$_mamaNameの給与詳細')),
       body: Column(
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.
-                      collection('salaries').doc(mamaId).collection('all-salary').snapshots(),
+                      collection('salaries').doc(_mamaId).collection('all-salary').snapshots(),
               builder: (context, snapshot) {
                 if(snapshot.hasError) {
                   return Text('エラーが発生しました');
@@ -80,7 +112,7 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
                                     context,
                                     EditSalaryDetailScreen.routeName,
                                     arguments: SalaryData(
-                                        mamaName: mamaName,
+                                        mamaName: _mamaName,
                                         date: document['date'],
                                         salary: document['salary'],
                                         year: int.parse(yearMonth[0]),

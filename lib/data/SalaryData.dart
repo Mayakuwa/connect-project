@@ -8,7 +8,7 @@ class SalaryData {
   final int month;
 
   const SalaryData({
-    @required this.mamaName,
+    this.mamaName,
     @required this.date,
     @required this.salary,
     this.year,
