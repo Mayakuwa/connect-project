@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/screens/EditSararyDetailScreen.dart';
+import 'package:connect_project/widgets/LineGraph.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/data/SalaryData.dart';
-import 'package:intl/intl.dart';
 
 
 class CheckSalaryDetailScreen extends StatefulWidget {
@@ -44,13 +44,19 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
             salary: salaryData.docs[i].data()['salary']
         ));
       }
+
+      //テスト
+      final test = FirebaseFirestore.instance.
+      collection('salaries').doc(_mamaId).collection('all-salary').orderBy('dateTime', descending: true).snapshots();
+      test.forEach((element) {
+        element.docs.reversed.forEach((e) {
+          print(e.data());
+        });
+      }
+      );
     });
   }
 
-  // Stream<QuerySnapshot> sortDataByDate (Stream<QuerySnapshot> data) {
-  //   //年と月を取り出す
-  //   return
-  // }
 
   void getMamaIdFromFirestore() async {
       final String mamaRef =  await FirebaseFirestore.instance.
@@ -75,6 +81,19 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
       appBar: AppBar(title: Text('$_mamaNameの給与詳細')),
       body: Column(
         children: [
+          Container(
+            width: 400,
+            height: 400,
+            child: Card(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: LineGraph.withDate(
+                      FirebaseFirestore.instance
+                      .collection('salaries').doc(_mamaId).collection('all-salary')
+                      .orderBy('dateTime', descending: true).snapshots()),
+                ),
+              )
+          ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.
