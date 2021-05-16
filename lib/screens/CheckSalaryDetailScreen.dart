@@ -44,16 +44,6 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
             salary: salaryData.docs[i].data()['salary']
         ));
       }
-
-      //テスト並び替え
-      final test = FirebaseFirestore.instance.
-      collection('salaries').doc(_mamaId).collection('all-salary').snapshots();
-      test.forEach((element) {
-        element.docs.reversed.forEach((e) {
-          print(e.data());
-        });
-      }
-      );
     });
   }
 
@@ -81,8 +71,6 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final date = DateTime(2019, 6);
-    print('${date.year}年${date.month}月');
     return Scaffold(
       appBar: AppBar(title: Text('$_mamaNameの給与詳細')),
       body: Column(
@@ -90,7 +78,7 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.
-                      collection('salaries').doc(_mamaId).collection('all-salary').snapshots(),
+                      collection('salaries').doc(_mamaId).collection('all-salary').orderBy('dateTime', descending: true).snapshots(),
               builder: (context, snapshot) {
                 if(snapshot.hasError) {
                   return Text('エラーが発生しました');
