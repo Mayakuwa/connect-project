@@ -6,12 +6,14 @@ class SalaryData {
   final String salary;
   final int year;
   final int month;
+  final DateTime dateTime;
 
   const SalaryData({
     this.mamaName,
-    @required this.date,
+    this.date,
     @required this.salary,
     this.year,
-    this.month
+    this.month,
+    this.dateTime
   });
 }

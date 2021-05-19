@@ -46,14 +46,14 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
       }
 
       //テスト
-      final test = FirebaseFirestore.instance.
-      collection('salaries').doc(_mamaId).collection('all-salary').orderBy('dateTime', descending: true).snapshots();
-      test.forEach((element) {
-        element.docs.reversed.forEach((e) {
-          print(e.data());
-        });
-      }
-      );
+      // final test = FirebaseFirestore.instance.
+      // collection('salaries').doc(_mamaId).collection('all-salary').orderBy('dateTime', descending: true).snapshots();
+      // test.forEach((element) {
+      //   element.docs.reversed.forEach((e) {
+      //     print(e.data());
+      //   });
+      // }
+      // );
     });
   }
 
@@ -81,6 +81,7 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
       appBar: AppBar(title: Text('$_mamaNameの給与詳細')),
       body: Column(
         children: [
+          // show graph
           Container(
             width: 400,
             height: 400,
