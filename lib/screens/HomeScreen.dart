@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.all(20),
                 child: SelectGradationButton(
-                  buttonText: 'メンバー編集',
+                  buttonText: 'ママを編集',
                   lightColor: Colors.orange[300],
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],

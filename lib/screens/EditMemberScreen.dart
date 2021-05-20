@@ -11,7 +11,7 @@ class EditMemberScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('メンバーを編集'),
+        title: Text('ママ編集'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -22,7 +22,7 @@ class EditMemberScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: SelectGradationButton(
-                buttonText: 'メンバー登録',
+                buttonText: 'ママ登録',
                 lightColor: Colors.orange[300],
                 middleColor: Colors.orange[500],
                 darkColor: Colors.orange[700],
@@ -37,7 +37,7 @@ class EditMemberScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: SelectGradationButton(
-                buttonText: 'メンバー削除',
+                buttonText: 'ママ削除',
                 lightColor: Colors.orange[300],
                 middleColor: Colors.orange[500],
                 darkColor: Colors.orange[700],

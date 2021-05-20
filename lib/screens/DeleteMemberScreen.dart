@@ -50,10 +50,9 @@ class DeleteMemberScreen extends StatelessWidget {
       );
     }
 
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('メンバー削除'),
+        title: Text('ママ削除'),
       ),
       body: Column(
         children: <Widget>[

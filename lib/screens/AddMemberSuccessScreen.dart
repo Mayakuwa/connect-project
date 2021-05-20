@@ -13,7 +13,7 @@ class AddMemberSuccessScreen extends StatelessWidget {
     final mamaName = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-          title: Text('メンバー追加02'),
+          title: Text('ママを追加'),
           automaticallyImplyLeading: false,
       ),
       body: Column(

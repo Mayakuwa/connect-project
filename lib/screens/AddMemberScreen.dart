@@ -35,7 +35,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('メンバーを追加'),
+        title: Text('ママを追加'),
       ),
       body: Container(
         child: Column(
