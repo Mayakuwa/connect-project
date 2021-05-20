@@ -8,6 +8,7 @@ import 'package:connect_project/screens/DeleteMemberScreen.dart';
 import 'package:connect_project/screens/EditSalaryScreen.dart';
 import 'package:connect_project/screens/EditSalarySuccessScreen.dart';
 import 'package:connect_project/screens/EditSararyDetailScreen.dart';
+import 'package:connect_project/screens/FirstScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/HomeScreen.dart';
@@ -15,6 +16,7 @@ import 'screens/AddMemberScreen.dart';
 import 'screens/EditMemberScreen.dart';
 
 void main() async {
+  //Firebaseをアプリ全体で初期化
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -53,7 +55,8 @@ class MyApp extends StatelessWidget {
         EditSalaryScreen.routeName: (ctx) => EditSalaryScreen(),
         CheckSalaryDetailScreen.routeName: (ctx) => CheckSalaryDetailScreen(),
         EditSalaryDetailScreen.routeName: (ctx) => EditSalaryDetailScreen(),
-        EditSalarySuccessScreen.routeName: (ctx) => EditSalarySuccessScreen()
+        EditSalarySuccessScreen.routeName: (ctx) => EditSalarySuccessScreen(),
+        FirstScreen.routeName: (ctx) => FirstScreen()
       },
     );
   }

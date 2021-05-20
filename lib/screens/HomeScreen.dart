@@ -1,7 +1,7 @@
 import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/CheckSalaryScreen.dart';
 import 'package:connect_project/screens/EditMemberScreen.dart';
-import 'package:connect_project/screens/EditSalaryScreen.dart';
+import 'package:connect_project/screens/FirstScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 
@@ -42,11 +42,11 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: SelectGradationButton(
-                buttonText: '給与データ編集',
+                buttonText: 'テストfirstScreen',
                 lightColor: Colors.orange[300],
                 middleColor: Colors.orange[500],
                 darkColor: Colors.orange[700],
-                onPress: () => Navigator.of(context).pushNamed(EditSalaryScreen.routeName),
+                onPress: () => Navigator.of(context).pushNamed(FirstScreen.routeName),
               )
             ),
           ),
