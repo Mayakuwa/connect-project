@@ -17,10 +17,14 @@ class FirstScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Padding(
               padding: EdgeInsets.all(20),
-              child: Image.asset(
-                  'images/connect_splash.png',
-                  width: 200,
-                  height: 200,
+              child: Column(
+                children: [
+                  Image.asset(
+                      'images/connect_salary_app_splash.png',
+                      width: 250,
+                      height: 250,
+                  ),
+                ],
               ),
             ),
           ),
