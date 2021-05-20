@@ -20,34 +20,48 @@ class LineGraph extends StatelessWidget {
     );
   }
 
-  //firestoreから受けとったデータの配列を入れる。
+  //firestoreから受けとったデータの配列を入れる。　引数をQuerySnapShotにしてみる
   static List<charts.Series<SalaryData, DateTime>> _createData(Stream<QuerySnapshot> snapshot) {
-    final data = [
-      new SalaryData(dateTime: new DateTime(2020, 7, 19), salary: '100'),
-      new SalaryData(dateTime: new DateTime(2020, 8,20), salary: '200'),
-      new SalaryData(dateTime: new DateTime(2020, 9,21), salary: '300'),
-      new SalaryData(dateTime: new DateTime(2020, 10,22), salary: '400'),
+    //テストデータ
+    final testdata = [
+      new SalaryData(dateTime: new DateTime(2020, 7), salary: '100'),
+      new SalaryData(dateTime: new DateTime(2020, 8), salary: '200'),
+      new SalaryData(dateTime: new DateTime(2020, 9), salary: '300'),
+      new SalaryData(dateTime: new DateTime(2020, 10), salary: '400'),
     ];
 
-    // snapshot.forEach((element) {
-    //   element.docs.reversed.forEach((e) {
-    //     //タイムスタンプを日付に変換
-    //     if(e.data()['dateTime'] is Timestamp) {
-    //       DateTime dateTime = e.data()['dateTime'].toDate();
-    //       DateFormat outPutDate = DateFormat('yyyy-MM');
-    //       String formalTime = outPutDate.format(dateTime);
-    //       print(dateTime);
-    //       print(formalTime);
-    //       data.add(
-    //           SalaryData(
-    //               date: formalTime,
-    //               salary: e.data()['salary']
-    //         ));
-    //       // print(data.reversed.first.date);
-    //     }
-    //   });
-    //   print(data);
-    // });
+    List<SalaryData> data = [];
+
+
+    snapshot.forEach((element) {
+      element.docs.reversed.forEach((e) {
+        //タイムスタンプを日付に変換
+        if(e.data()['dateTime'] is Timestamp) {
+          DateTime dateTime = e.data()['dateTime'].toDate();
+
+          DateFormat outPutDateYearMonth = DateFormat('yyyy-MM');
+
+          DateFormat outPutDateYear = DateFormat('yyyy');
+
+          DateFormat outPutDateMonth = DateFormat('MM');
+
+          String formalTime = outPutDateYearMonth.format(dateTime);
+          // 年
+          // print(int.parse(outPutDateYear.format(dateTime)));
+          // 月
+          // print(int.parse(outPutDateMonth.format(dateTime)));
+          // 年と月
+          // print(formalTime);
+          data.add(
+              SalaryData(
+                  dateTime: DateTime(int.parse(outPutDateYear.format(dateTime)), int.parse(outPutDateMonth.format(dateTime))),
+                  salary: e.data()['salary']
+            ));
+          print(data.reversed.first.dateTime);
+        }
+      });
+      print(data.reversed.first.date);
+    });
 
     // print(data);
     
