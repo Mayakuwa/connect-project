@@ -1,3 +1,5 @@
+import 'package:connect_project/screens/HomeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
@@ -5,6 +7,9 @@ import 'package:connect_project/widgets/SelectGradationButton.dart';
 class LoginScreen extends StatelessWidget {
 
   static const routeName = './login_screen';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +25,9 @@ class LoginScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: TextField(
+                onChanged: (value) {
+                  _email = value;
+                },
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -34,6 +42,9 @@ class LoginScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(20),
               child: TextField(
+                onChanged: (value) {
+                  _password = value;
+                },
                 textAlign: TextAlign.center,
                 obscureText: true,
                 decoration: InputDecoration(
@@ -52,7 +63,18 @@ class LoginScreen extends StatelessWidget {
                   lightColor: Colors.orange[300],
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],
-                  onPress: () {
+                  onPress: () async {
+                    try {
+                      final existUser = await _auth.signInWithEmailAndPassword(
+                          email: _email,
+                          password: _password);
+
+                      if(existUser != null) {
+                        Navigator.of(context).pushNamed(HomeScreen.routeName);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                     // Navigator.of(context).pushNamed();
                   },
                 )

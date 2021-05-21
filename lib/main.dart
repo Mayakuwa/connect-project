@@ -16,15 +16,20 @@ import 'package:flutter/material.dart';
 import 'screens/HomeScreen.dart';
 import 'screens/AddMemberScreen.dart';
 import 'screens/EditMemberScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final _auth = FirebaseAuth.instance;
 
 void main() async {
   //Firebaseをアプリ全体で初期化
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  print('${_auth.currentUser} is exist!!');
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
 
   // This widget is the root of your application.
   @override
@@ -42,8 +47,8 @@ class MyApp extends StatelessWidget {
         //バックボタンを白に設定
         primaryIconTheme: IconThemeData(color: Colors.white)
       ),
-      home: HomeScreen(),
-      initialRoute: HomeScreen.routeName,
+      home: _auth.currentUser != null ? HomeScreen() : FirstScreen(),
+      initialRoute: _auth.currentUser != null ? HomeScreen.routeName : FirstScreen.routeName,
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         AddMemberScreen.routeName: (ctx) => AddMemberScreen(),
