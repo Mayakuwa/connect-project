@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/data/SalaryData.dart';
-import 'package:connect_project/widgets/LineGraph.dart';
 
 
 enum TextFieldType {

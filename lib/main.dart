@@ -9,6 +9,8 @@ import 'package:connect_project/screens/EditSalaryScreen.dart';
 import 'package:connect_project/screens/EditSalarySuccessScreen.dart';
 import 'package:connect_project/screens/EditSararyDetailScreen.dart';
 import 'package:connect_project/screens/FirstScreen.dart';
+import 'package:connect_project/screens/LoginScreen.dart';
+import 'package:connect_project/screens/RegisterScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/HomeScreen.dart';
@@ -56,7 +58,9 @@ class MyApp extends StatelessWidget {
         CheckSalaryDetailScreen.routeName: (ctx) => CheckSalaryDetailScreen(),
         EditSalaryDetailScreen.routeName: (ctx) => EditSalaryDetailScreen(),
         EditSalarySuccessScreen.routeName: (ctx) => EditSalarySuccessScreen(),
-        FirstScreen.routeName: (ctx) => FirstScreen()
+        FirstScreen.routeName: (ctx) => FirstScreen(),
+        RegisterScreen.routeName: (ctx) => RegisterScreen(),
+        LoginScreen.routeName: (ctx) => LoginScreen()
       },
     );
   }
