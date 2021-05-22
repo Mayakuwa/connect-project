@@ -21,6 +21,7 @@ class DeleteMemberScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 
+    //確認
     Future<void> _showCheckDeleteDialog(DocumentReference documentId, String mamaName) async {
       await showDialog(
           context: context,

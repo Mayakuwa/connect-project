@@ -1,6 +1,7 @@
 import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/CheckSalaryScreen.dart';
 import 'package:connect_project/screens/EditMemberScreen.dart';
+import 'package:connect_project/screens/FirstScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,25 +16,61 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
-  User loginUser;
+  User _loginUser;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCurrentUser();
+    _getCurrentUser();
   }
 
-  void getCurrentUser()  {
+  void _getCurrentUser() {
     try {
       final currentUser =  _auth.currentUser;
       if(currentUser != null) {
-        loginUser = currentUser;
-        print(loginUser.email);
+        _loginUser = currentUser;
+        print(_loginUser.email);
       }
     } catch(e) {
       print(e);
     }
+  }
+
+  //ママのアドレスを入れる
+  Future<void>  _showCheckLogoutDialog() async {
+    await showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text('ログアウト'),
+            content: Text('ログアウトしますか？'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('ログアウトする', style: TextStyle(color: Colors.redAccent),),
+                onPressed: () {
+                  try {
+                    if(_loginUser != null) {
+                      _auth.signOut();
+                      Navigator.popUntil(
+                          context,
+                          ModalRoute.withName(FirstScreen.routeName));
+                    }
+                  } catch(e) {
+                    print(e);
+                  }
+                },
+              ),
+              TextButton(
+                child: Text('キャンセル', style: TextStyle(color: Colors.black38),),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        }
+    );
   }
 
   @override
@@ -43,6 +80,17 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Home'),
         //バックボタンを消す
         automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                _showCheckLogoutDialog();
+              },
+            ),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
