@@ -79,18 +79,37 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Home'),
         //バックボタンを消す
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                _showCheckLogoutDialog();
-              },
+        // actions: [
+        //   // Padding(
+        //   //   padding: EdgeInsets.all(10),
+        //   //   child: IconButton(
+        //   //     icon: Icon(Icons.settings),
+        //   //     onPressed: () {
+        //   //       _showCheckLogoutDialog();
+        //   //     },
+        //   //   ),
+        //   // )
+        // ],
+      ),
+      drawer: Drawer(
+        child: Column(children: [
+          UserAccountsDrawerHeader(
+            accountName: Text("User Name"),
+            accountEmail: Text("User Email"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: NetworkImage("https://pbs.twimg.com/profile_images/885510796691689473/rR9aWvBQ_400x400.jpg"),
             ),
-          )
-        ],
+          ),
+          ListTile(
+            title: Text("Item 1"),
+            trailing: Icon(Icons.arrow_forward),
+          ),
+          ListTile(
+            title: Text("Item 2"),
+            trailing: Icon(Icons.arrow_forward),
+          ),
+        ]),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
