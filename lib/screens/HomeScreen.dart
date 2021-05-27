@@ -98,16 +98,22 @@ class _HomeScreenState extends State<HomeScreen> {
             accountEmail: Text("User Email"),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              backgroundImage: NetworkImage("https://pbs.twimg.com/profile_images/885510796691689473/rR9aWvBQ_400x400.jpg"),
+              backgroundImage: NetworkImage(""),
             ),
           ),
           ListTile(
-            title: Text("Item 1"),
+            title: Text("プロフィール編集"),
             trailing: Icon(Icons.arrow_forward),
           ),
           ListTile(
-            title: Text("Item 2"),
-            trailing: Icon(Icons.arrow_forward),
+            title: Text("ログアウト"),
+            trailing: IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _showCheckLogoutDialog();
+                },
+            ),
           ),
         ]),
       ),
