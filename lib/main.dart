@@ -5,6 +5,7 @@ import 'package:connect_project/screens/AddSalarySuccessScreen.dart';
 import 'package:connect_project/screens/CheckSalaryDetailScreen.dart';
 import 'package:connect_project/screens/CheckSalaryScreen.dart';
 import 'package:connect_project/screens/DeleteMemberScreen.dart';
+import 'package:connect_project/screens/EditProfileScreen.dart';
 import 'package:connect_project/screens/EditSalaryScreen.dart';
 import 'package:connect_project/screens/EditSalarySuccessScreen.dart';
 import 'package:connect_project/screens/EditSararyDetailScreen.dart';
@@ -65,7 +66,8 @@ class MyApp extends StatelessWidget {
         EditSalarySuccessScreen.routeName: (ctx) => EditSalarySuccessScreen(),
         FirstScreen.routeName: (ctx) => FirstScreen(),
         RegisterScreen.routeName: (ctx) => RegisterScreen(),
-        LoginScreen.routeName: (ctx) => LoginScreen()
+        LoginScreen.routeName: (ctx) => LoginScreen(),
+        EditProfileScreen.routeName: (ctx) => EditProfileScreen()
       },
     );
   }

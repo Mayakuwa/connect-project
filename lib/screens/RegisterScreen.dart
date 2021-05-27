@@ -94,7 +94,7 @@ class RegisterScreen extends StatelessWidget {
                         try {
                           final newUser = await _auth.createUserWithEmailAndPassword(
                               email: _email,
-                              password: _password
+                              password: _password,
                           );
                           if(newUser != null) {
                             await FirebaseFirestore.instance.
@@ -103,7 +103,11 @@ class RegisterScreen extends StatelessWidget {
                               'password': _password,
                               'name' : _name
                             });
-                            Navigator.of(context).pushNamed(HomeScreen.routeName);
+                            Navigator.pushNamed(
+                                context,
+                                HomeScreen.routeName,
+                                arguments: _name
+                            );
                           }
                         } catch(e) {
                           //snack barを表示

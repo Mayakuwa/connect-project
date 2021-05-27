@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connect_project/data/Administrator.dart';
 import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/CheckSalaryScreen.dart';
 import 'package:connect_project/screens/EditMemberScreen.dart';
+import 'package:connect_project/screens/EditProfileScreen.dart';
 import 'package:connect_project/screens/FirstScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   User _loginUser;
+  String userName = 'default';
 
   @override
   void initState() {
@@ -25,12 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
     _getCurrentUser();
   }
 
-  void _getCurrentUser() {
+  void _getCurrentUser() async {
     try {
       final currentUser =  _auth.currentUser;
       if(currentUser != null) {
         _loginUser = currentUser;
-        print(_loginUser.email);
+        QuerySnapshot docSnapshot = await FirebaseFirestore.instance.collection('administrators')
+            .where('email', isEqualTo: _loginUser.email).get();
+
+        userName = docSnapshot.docs[0].data()['name'];
+
       }
     } catch(e) {
       print(e);
@@ -78,24 +87,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
-        //バックボタンを消す
-        // actions: [
-        //   // Padding(
-        //   //   padding: EdgeInsets.all(10),
-        //   //   child: IconButton(
-        //   //     icon: Icon(Icons.settings),
-        //   //     onPressed: () {
-        //   //       _showCheckLogoutDialog();
-        //   //     },
-        //   //   ),
-        //   // )
-        // ],
       ),
       drawer: Drawer(
         child: Column(children: [
           UserAccountsDrawerHeader(
-            accountName: Text("User Name"),
-            accountEmail: Text("User Email"),
+            accountName: Text(userName),
+            accountEmail: Text(_loginUser.email),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               backgroundImage: NetworkImage(""),
@@ -103,7 +100,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             title: Text("プロフィール編集"),
-            trailing: Icon(Icons.arrow_forward),
+            trailing: IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context,
+                      EditProfileScreen.routeName,
+                      arguments: Administrator(
+                          name: userName,
+                          email: _loginUser.email
+                      )
+                  );
+                },
+            ),
           ),
           ListTile(
             title: Text("ログアウト"),
