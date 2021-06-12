@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/data/Administrator.dart';
+import 'package:connect_project/screens/HomeScreen.dart';
+import 'package:connect_project/widgets/LineChart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
@@ -13,9 +16,11 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
 
+  String pastName = "";
+  String pastEmail = "";
   String name = "";
   String email = "";
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
 
   _EditProfileScreenState({this.email, this.name});
 
@@ -26,6 +31,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     Future.delayed(Duration.zero, () {
       final Administrator dataRef = ModalRoute.of(context).settings.arguments;
       setState(() {
+        pastName = dataRef.name;
+        pastEmail = dataRef.email;
         name = dataRef.name;
         email = dataRef.email;
       });
@@ -85,16 +92,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   lightColor: Colors.orange[300],
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],
-                  onPress: () {
-                    try {
-                      //メールアドレスと、名前を変更する。
+                  onPress: () async {
+                      // 認証情報のゲット
                       final currentUser = auth.currentUser;
-                      currentUser.updateEmail(email).then(
-                              (value) => print('success')
-                      ).catchError((e) => print(e));
-                    } catch(e) {
+                      // ドキュメントのIdをゲット
+                      final administratorsRef = await FirebaseFirestore.instance
+                          .collection('administrators')
+                          .where('name' , isEqualTo: pastName)
+                          .where('email', isEqualTo: pastEmail).get().then((value) => value.docs.reversed.first.id);
 
-                    }
+                      print(administratorsRef);
+
+                      //管理者データ更新
+                      await FirebaseFirestore.instance.collection('administrators')
+                          .doc(administratorsRef).set({
+                        'name' : name,
+                        'email': email
+                      }).then((value) => print('update name and email')).catchError((e) => print(e));
+
+                      currentUser.updateEmail(email).then(
+                              (value) => Navigator.popUntil(
+                                  context,
+                                  ModalRoute.withName(HomeScreen.routeName)
+                              )
+                      );
                   },
                 )
             ),

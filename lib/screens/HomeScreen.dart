@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   User _loginUser;
-  String userName = 'default';
+  String userName = '';
 
   @override
   void initState() {
@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
             .where('email', isEqualTo: _loginUser.email).get();
 
         userName = docSnapshot.docs[0].data()['name'];
-
       }
     } catch(e) {
       print(e);
@@ -93,17 +92,17 @@ class _HomeScreenState extends State<HomeScreen> {
           UserAccountsDrawerHeader(
             accountName: Text(userName),
             accountEmail: Text(_loginUser.email),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(""),
-            ),
+            // currentAccountPicture: CircleAvatar(
+            //   backgroundColor: Colors.white,
+            //   backgroundImage: NetworkImage(""),
+            // ),
           ),
           ListTile(
             title: Text("プロフィール編集"),
             trailing: IconButton(
                 icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  Navigator.pushNamed(
+                onPressed: () async {
+                  await Navigator.pushNamed(
                       context,
                       EditProfileScreen.routeName,
                       arguments: Administrator(
