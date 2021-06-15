@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   User _loginUser;
   String userName = '';
+  String userEmail = '';
 
   @override
   void initState() {
@@ -38,7 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
         QuerySnapshot docSnapshot = await FirebaseFirestore.instance.collection('administrators')
             .where('email', isEqualTo: _loginUser.email).get();
 
-        userName = docSnapshot.docs[0].data()['name'];
+        print(docSnapshot.docs[0].data()['name']);
+        print(docSnapshot.docs[0].data()['email']);
+
+        setState(() {
+          userName = docSnapshot.docs[0].data()['name'];
+          userEmail = docSnapshot.docs[0].data()['email'];
+        });
       }
     } catch(e) {
       print(e);
@@ -94,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(children: [
           UserAccountsDrawerHeader(
             accountName: Text(userName),
-            accountEmail: Text(_loginUser.email),
+            accountEmail: Text(userEmail),
             // currentAccountPicture: CircleAvatar(
             //   backgroundColor: Colors.white,
             //   backgroundImage: NetworkImage(""),
@@ -110,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       EditProfileScreen.routeName,
                       arguments: Administrator(
                           name: userName,
-                          email: _loginUser.email
+                          email: userEmail
                       )
                   );
                 },

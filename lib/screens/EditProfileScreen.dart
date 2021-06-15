@@ -21,6 +21,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String email = "";
   final auth = FirebaseAuth.instance;
 
+
   _EditProfileScreenState({this.email, this.name});
 
   @override
@@ -92,7 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   middleColor: Colors.orange[500],
                   darkColor: Colors.orange[700],
                   onPress: () async {
-                      // 認証情報のゲット
+                      // ユーザーの認証情報のゲット
                       final currentUser = auth.currentUser;
                       // ドキュメントのIdをゲット
                       final administratorsRef = await FirebaseFirestore.instance
@@ -100,19 +101,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           .where('name' , isEqualTo: pastName)
                           .where('email', isEqualTo: pastEmail).get().then((value) => value.docs.reversed.first.id);
 
-                      print(administratorsRef);
-
                       //管理者データ更新
                       await FirebaseFirestore.instance.collection('administrators')
                           .doc(administratorsRef).set({
                         'name' : name,
                         'email': email
-                      }).then((value) => print('update name and email')).catchError((e) => print(e));
+                      }).then((value) => print('success')).catchError((e) => print(e));
 
                       await currentUser.updateEmail(email).then(
-                              (value) => Navigator.popUntil(
+                              (value) => Navigator.pushNamedAndRemoveUntil(
                                   context,
-                                  ModalRoute.withName(HomeScreen.routeName)
+                                  HomeScreen.routeName,
+                                  (route) => false
                               )
                       );
                   },
