@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
         QuerySnapshot docSnapshot = await FirebaseFirestore.instance.collection('administrators')
             .where('email', isEqualTo: _loginUser.email).get();
 
-        print(docSnapshot.docs[0].data()['name']);
-        print(docSnapshot.docs[0].data()['email']);
+        // print(docSnapshot.docs[0].data()['name']);
+        // print(docSnapshot.docs[0].data()['email']);
 
         setState(() {
           userName = docSnapshot.docs[0].data()['name'];
@@ -102,10 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
           UserAccountsDrawerHeader(
             accountName: Text(userName),
             accountEmail: Text(userEmail),
-            // currentAccountPicture: CircleAvatar(
-            //   backgroundColor: Colors.white,
-            //   backgroundImage: NetworkImage(""),
-            // ),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: NetworkImage("https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg"),
+            ),
           ),
           ListTile(
             title: Text("プロフィール編集"),

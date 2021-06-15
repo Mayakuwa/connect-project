@@ -108,6 +108,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         'email': email
                       }).then((value) => print('success')).catchError((e) => print(e));
 
+                      //後々、エラーハンドリングするようにする。
                       if(pastEmail != email) {
                         await currentUser.updateEmail(email).then(
                                 (value) => Navigator.pushNamedAndRemoveUntil(
