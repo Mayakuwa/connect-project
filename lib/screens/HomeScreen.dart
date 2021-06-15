@@ -60,9 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   try {
                     if(_loginUser != null) {
                       _auth.signOut();
-                      Navigator.popUntil(
+                      //ログアウト時にホーム画面に戻る時などはpushNamedAndRemoveUntilを使うと便利
+                      Navigator.pushNamedAndRemoveUntil(
                           context,
-                          ModalRoute.withName(FirstScreen.routeName));
+                          FirstScreen.routeName,
+                          (route) => false
+                      );
                     }
                   } catch(e) {
                     print(e);

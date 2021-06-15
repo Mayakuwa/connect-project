@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/data/Administrator.dart';
 import 'package:connect_project/screens/HomeScreen.dart';
-import 'package:connect_project/widgets/LineChart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_project/widgets/SelectGradationButton.dart';
@@ -110,7 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         'email': email
                       }).then((value) => print('update name and email')).catchError((e) => print(e));
 
-                      currentUser.updateEmail(email).then(
+                      await currentUser.updateEmail(email).then(
                               (value) => Navigator.popUntil(
                                   context,
                                   ModalRoute.withName(HomeScreen.routeName)
