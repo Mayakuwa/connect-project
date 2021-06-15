@@ -108,13 +108,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         'email': email
                       }).then((value) => print('success')).catchError((e) => print(e));
 
-                      await currentUser.updateEmail(email).then(
-                              (value) => Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  HomeScreen.routeName,
-                                  (route) => false
-                              )
-                      );
+                      if(pastEmail != email) {
+                        await currentUser.updateEmail(email).then(
+                                (value) => Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                HomeScreen.routeName,
+                                    (route) => false
+                            )
+                        );
+                      }
                   },
                 )
             ),
