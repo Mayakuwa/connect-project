@@ -1,4 +1,5 @@
 import 'package:connect_project/screens/AddMemberSuccessScreen.dart';
+import 'package:connect_project/screens/AddProfileImageScreen.dart';
 import 'package:connect_project/screens/AddSalaryNextScreen.dart';
 import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/AddSalarySuccessScreen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (ctx) => RegisterScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
         EditProfileScreen.routeName: (ctx) => EditProfileScreen(),
+        AddProfileImageScreen.routeName: (ctx) => AddProfileImageScreen()
       },
     );
   }

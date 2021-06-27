@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connect_project/data/Administrator.dart';
+import 'package:connect_project/screens/AddProfileImageScreen.dart';
 import 'package:connect_project/screens/AddSalaryScreen.dart';
 import 'package:connect_project/screens/CheckSalaryScreen.dart';
 import 'package:connect_project/screens/EditMemberScreen.dart';
@@ -102,11 +103,16 @@ class _HomeScreenState extends State<HomeScreen> {
           UserAccountsDrawerHeader(
             accountName: Text(userName),
             accountEmail: Text(userEmail),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: NetworkImage("https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg"),
+            currentAccountPicture:
+                // 色をつけられるようにする
+             InkWell(
+               onTap: ()=> Navigator.of(context).pushNamed(AddProfileImageScreen.routeName),
+               child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage: NetworkImage("https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg"),
+                ),
+             ),
             ),
-          ),
           ListTile(
             title: Text("プロフィール編集"),
             trailing: IconButton(
