@@ -151,23 +151,23 @@ class _CheckSalaryDetailScreenState extends State<CheckSalaryDetailScreen> {
       body: Column(
         children: [
           // show graph
-          Container(
-            width: 400,
-            height: 400,
-            child: Card(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: LineGraph.withDate(
-                    FirebaseFirestore.instance
-                        .collection('salaries').doc(_mamaId).collection('all-salary')
-                        .orderBy('dateTime', descending: true).snapshots()),
-              ),
-            )
-              // child: new charts.LineChart(
-              //   _getSeriesData(),
-              //   animate: true,
-              // ),
-          ),
+          // Container(
+          //   width: 400,
+          //   height: 400,
+          //   child: Card(
+          //     child: Container(
+          //       padding: EdgeInsets.all(10),
+          //       child: LineGraph.withDate(
+          //           FirebaseFirestore.instance
+          //               .collection('salaries').doc(_mamaId).collection('all-salary')
+          //               .orderBy('dateTime', descending: true).snapshots()),
+          //     ),
+          //   )
+          //     // child: new charts.LineChart(
+          //     //   _getSeriesData(),
+          //     //   animate: true,
+          //     // ),
+          // ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.
