@@ -4,10 +4,12 @@ class Administrator {
   String name;
   String email;
   String password;
+  String imageUrl;
 
   Administrator({
-    @required this.name,
-    @required this.email,
-    this.password
+    this.name,
+    this.email,
+    this.password,
+    this.imageUrl
   });
 }

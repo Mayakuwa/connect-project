@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:connect_project/data/Administrator.dart';
 
 class AddProfileImageScreen extends StatefulWidget {
 
@@ -17,7 +18,24 @@ class _AddProfileImageScreenState extends State<AddProfileImageScreen> {
 
   final _imagePicker = ImagePicker();
   File _image;
+  String _imageUrl = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg";
+  //asset image だったらtrue,default imageだったらfalse
+  bool _checkCustomImage = false;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      final Administrator dataRef = ModalRoute.of(context).settings.arguments;
+      setState(() {
+        _imageUrl = dataRef.imageUrl;
+        if(_imageUrl != "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg") {
+          _checkCustomImage = true;
+        }
+      });
+    });
+  }
   //permission check
   // Future<bool> checkAndRequestPermission() async {
   //   var permissionStatus = await Permission.photos.status;
@@ -29,6 +47,7 @@ class _AddProfileImageScreenState extends State<AddProfileImageScreen> {
   // }
 
   Future updateImageFromLibrary() async {
+
     var status = await Permission.photos.status;
     if (status == PermissionStatus.denied) {
       // 一度もリクエストしてないので権限のリクエスト.
@@ -40,13 +59,14 @@ class _AddProfileImageScreenState extends State<AddProfileImageScreen> {
         status.isPermanentlyDenied) {
       // 端末の設定画面へ遷移.
       await openAppSettings();
-      return;
     }
 
     var pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      _checkCustomImage = true;
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        _imageUrl = pickedFile.path;
+        print(_imageUrl);
       } else {
         print('No image selected.');
       }
@@ -72,7 +92,7 @@ class _AddProfileImageScreenState extends State<AddProfileImageScreen> {
                 onTap: () => print("hello"),
                 child: CircleAvatar(
                   radius: 60,
-                  backgroundImage: NetworkImage("https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg"),
+                  backgroundImage: _checkCustomImage ? AssetImage(_imageUrl) : NetworkImage(_imageUrl),
                 ),
               ),
             ),

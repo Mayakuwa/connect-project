@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   User _loginUser;
   String userName = '';
   String userEmail = '';
+  String userImageUrl = '';
 
   @override
   void initState() {
@@ -46,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           userName = docSnapshot.docs[0].data()['name'];
           userEmail = docSnapshot.docs[0].data()['email'];
+          docSnapshot.docs[0].data()['imageUri'] == null ?
+          userImageUrl = "https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg" :
+          userImageUrl = docSnapshot.docs[0].data()['imageUri'];
         });
       }
     } catch(e) {
@@ -106,10 +110,16 @@ class _HomeScreenState extends State<HomeScreen> {
             currentAccountPicture:
                 // 色をつけられるようにする
              InkWell(
-               onTap: ()=> Navigator.of(context).pushNamed(AddProfileImageScreen.routeName),
+               onTap: ()=> Navigator.pushNamed(
+                   context,
+                   AddProfileImageScreen.routeName,
+                   arguments: Administrator(
+                     imageUrl: userImageUrl
+                   )
+               ),
                child: CircleAvatar(
                   radius: 60,
-                  backgroundImage: NetworkImage("https://applimura.com/wp-content/uploads/2019/08/twittericon13.jpg"),
+                  backgroundImage: NetworkImage(userImageUrl),
                 ),
              ),
             ),
@@ -123,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       EditProfileScreen.routeName,
                       arguments: Administrator(
                           name: userName,
-                          email: userEmail
+                          email: userEmail,
                       )
                   );
                 },
