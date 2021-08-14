@@ -114,7 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                    context,
                    AddProfileImageScreen.routeName,
                    arguments: Administrator(
-                     imageUrl: userImageUrl
+                     imageUrl: userImageUrl,
+                     name: userName,
+                     email: userEmail
                    )
                ),
                child: CircleAvatar(
